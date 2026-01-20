@@ -7,6 +7,7 @@ import { getTrendingMovies, UpdateSearchTerm } from './appwrite'
 import { useCallback } from 'react'
 import type { Movie, TrendingMovie } from './types'
 
+
 const BASE_URL = 'https://api.themoviedb.org/3'
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 
@@ -113,7 +114,7 @@ function App() {
         )}
 
         <section className='all-movies'>
-            <h2 className='mt-5'>All Movies</h2>
+            <h2 className='mt-5'>Popular Movies</h2>
             
             {Loading ? (
               <Spinner/>

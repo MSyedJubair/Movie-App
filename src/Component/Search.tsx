@@ -1,8 +1,8 @@
 
 const Search = ({SearchTerm, setSearchTerm}) => {
   return (
-    <div className='search'>
-      <div>
+    <div tabIndex={0} className='search rounded-full focus-within:border-indigo-900 border transition-all duration-300'>
+      <div className="">
         <img src="./search.svg" alt="" />
         <input 
             type="text" 
