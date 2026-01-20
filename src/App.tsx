@@ -1,34 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Search from './Component/Search'
 import MovieCard from './Component/MovieCard'
 import Spinner from './Component/Spinner'
 import { useDebounce } from 'react-use'
 import { getTrendingMovies, UpdateSearchTerm } from './appwrite'
+import { useCallback } from 'react'
+import type { Movie, TrendingMovie } from './types'
 
 const BASE_URL = 'https://api.themoviedb.org/3'
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 
+
+interface TMDBResponse {
+  results: Movie[]
+}
+
 function App() {
-  const [SearchTerm, setSearchTerm] = useState('')
-  const [ErrorEstate, setError] = useState(false)
-  const [Loading, setLoading] = useState(false)
-  const [MovieList, setMovieList] = useState([])
+  const [SearchTerm, setSearchTerm] = useState<string>('')
   const [DebouncedSearch, setDebouncedSearch] = useState('')
-  const [TrendingMovies, setTrendingMovies] = useState([])
+
+  const [ErrorEstate, setError] = useState<boolean>(false)
+  const [Loading, setLoading] = useState<boolean>(false)
+  
+  const [MovieList, setMovieList] = useState<Movie[]>([])
+  const [TrendingMovies, setTrendingMovies] = useState<TrendingMovie[]>([])
+
+
   useDebounce(() => {setDebouncedSearch(SearchTerm)}, 500, [SearchTerm]
   )
   
 
-  const OPTIONS = {
-    method: 'GET', 
-    headers: {
-      accept: 'application/json', 
-      Authorization: `Bearer ${API_KEY}`
-    }
-    
-  };
+  const OPTIONS = useMemo(() => (
+    {
+      method: 'GET', 
+      headers: {
+          accept: 'application/json', 
+          Authorization: `Bearer ${API_KEY}`
+      }
+    }), [])
 
-  const fetch_movies = async (query='') => {
+  const fetch_movies = useCallback(async (query:string=''): Promise<void> => {
     setLoading(true)
     try{
       const endpoint = !query ? `${BASE_URL}/discover/movie?sort_by=popularity.desc` : `${BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
@@ -39,7 +50,7 @@ function App() {
         throw new Error('Failed To fetch Movies')
       } 
       
-      const movie_data = await response.json()
+      const movie_data:TMDBResponse = await response.json()
       setMovieList(movie_data.results)
 
       if (query && movie_data.results.length > 0) {
@@ -49,11 +60,11 @@ function App() {
       console.log(error)
     } 
     setLoading(false)
-  }
+  }, [OPTIONS])
   
   const LoadTrendingMovies = async () => {
     try {
-      const movies = await getTrendingMovies()
+      const movies = await getTrendingMovies() as TrendingMovie[]
 
       setTrendingMovies(movies)
     } catch (error) {
@@ -63,7 +74,7 @@ function App() {
 
   useEffect(() => {
       fetch_movies(DebouncedSearch)
-    }, [DebouncedSearch]
+    }, [DebouncedSearch, fetch_movies]
   )
 
   useEffect(() => {
@@ -88,7 +99,7 @@ function App() {
 
         {TrendingMovies.length > 0 && (
           <section className='trending'>
-            <h2 className='mt-[20px]'>Trending Movies</h2>
+            <h2 className='mt-5'>Trending Movies</h2>
             <ul>
               {TrendingMovies.map((movie, index) => (
                 <li key={movie.$id}>
@@ -102,7 +113,7 @@ function App() {
         )}
 
         <section className='all-movies'>
-            <h2 className='mt-[20px]'>All Movies</h2>
+            <h2 className='mt-5'>All Movies</h2>
             
             {Loading ? (
               <Spinner/>
@@ -110,7 +121,8 @@ function App() {
               <p className='text-red-400'>Error Fetching The Movies</p>
             ) : (
               <ul>
-                {MovieList.map((movie) => (
+                {MovieList
+                .map((movie) => (
                   <li key={movie.id}>
                     <MovieCard movie={movie}/>
                   </li>         
