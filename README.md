@@ -1,73 +1,193 @@
-# React + TypeScript + Vite
+![Movie App Hero](public/Movie%20App%20Using%20React.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🎬 Movie App
 
-Currently, two official plugins are available:
+A modern, responsive web application built with **React** that helps you discover and search for movies effortlessly. Browse trending movies, search your favorites, and explore detailed information about films from The Movie Database (TMDB) API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **🔍 Smart Search**: Debounced search functionality for smooth performance and real-time movie discovery
+- **🔥 Trending Movies**: Display of currently trending movies on the home page
+- **🎨 Beautiful UI**: Modern, responsive design built with Tailwind CSS
+- **⚡ Fast Performance**: Optimized with Vite for lightning-fast development and production builds
+- **📱 Mobile Responsive**: Fully responsive design that works seamlessly on all devices
+- **🎯 Search History**: Tracks your searches using Appwrite backend
+- **🔄 Smooth Animations**: Enhanced user experience with motion animations
+- **⌨️ Debounced Input**: Efficient API calls with debounced search input
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Technology | Purpose |
+|-----------|---------|
+| **React 19** | Frontend framework |
+| **TypeScript** | Type-safe JavaScript |
+| **Vite** | Next-generation build tool |
+| **Tailwind CSS** | Utility-first CSS framework |
+| **Appwrite** | Backend services & database |
+| **Motion** | Animation library |
+| **React Use** | React hooks utilities |
+| **TMDB API** | Movie database |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📦 Installation & Setup
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn package manager
+
+### Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/movie-app.git
+   cd movie-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory:
+   ```env
+   VITE_TMDB_API_KEY=your_tmdb_api_key_here
+   VITE_APPWRITE_ENDPOINT=your_appwrite_endpoint
+   VITE_APPWRITE_PROJECT_ID=your_project_id
+   ```
+
+4. **Get your TMDB API Key**
+   - Visit [The Movie Database](https://www.themoviedb.org/) and create an account
+   - Go to Settings → API and get your API key
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:5173](http://localhost:5173) in your browser
+
+---
+
+## 🚀 Available Scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Start the development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Run ESLint for code quality |
+
+---
+
+## 📂 Project Structure
+
+```
+movie-app/
+├── src/
+│   ├── Component/
+│   │   ├── MovieCard.tsx      # Individual movie card component
+│   │   ├── Search.tsx          # Search input component
+│   │   └── Spinner.tsx         # Loading spinner component
+│   ├── App.tsx                 # Main application component
+│   ├── appwrite.ts             # Appwrite backend services
+│   ├── types.ts                # TypeScript type definitions
+│   ├── main.tsx                # React entry point
+│   ├── index.css               # Global styles
+│   └── assets/                 # Static assets
+├── public/                      # Public assets
+├── package.json                # Project dependencies
+├── vite.config.ts              # Vite configuration
+├── tsconfig.json               # TypeScript configuration
+└── README.md                   # This file
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🎯 How It Works
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. **Home Page**: Displays trending movies fetched from TMDB API
+2. **Search**: Type in the search bar to find movies (debounced for efficiency)
+3. **Movie Details**: Click on any movie card to see more information
+4. **Search History**: Your searches are saved in the Appwrite database for future reference
+
+---
+
+## 🔧 Key Components
+
+### Search Component
+Handles user input with debouncing to minimize API calls and improve performance.
+
+### MovieCard Component
+Displays movie information including poster, title, and rating in a beautiful card layout.
+
+### Spinner Component
+Shows a loading indicator while fetching data from the API.
+
+---
+
+## 🌟 Features in Detail
+
+### Real-time Search
+The app uses a 500ms debounce on search input to optimize API calls while providing instant feedback to users.
+
+### Trending Movies Display
+On initial load, the app fetches and displays currently trending movies from TMDB.
+
+### Responsive Design
+Built with Tailwind CSS to ensure the app looks great on desktop, tablet, and mobile devices.
+
+### Type Safety
+Fully typed with TypeScript for better development experience and fewer runtime errors.
+
+---
+
+## 📝 Environment Variables
+
+```env
+# TMDB API Configuration
+VITE_TMDB_API_KEY=your_api_key
+
+# Appwrite Configuration (optional, for search history)
+VITE_APPWRITE_ENDPOINT=https://your-appwrite-instance.com/v1
+VITE_APPWRITE_PROJECT_ID=your_project_id
 ```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork this project and submit pull requests to help improve it.
+
+---
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+---
+
+## 👨‍💻 Developer
+
+Created by **Tonmoy**
+
+---
+
+## 🙏 Acknowledgments
+
+- [The Movie Database (TMDB)](https://www.themoviedb.org/) for providing the movie API
+- [React Documentation](https://react.dev/)
+- [Vite](https://vitejs.dev/) for the amazing build tool
+- [Tailwind CSS](https://tailwindcss.com/) for the styling framework
+
+---
+
+## 📞 Support
+
+If you have any questions or issues, please open an issue on GitHub or contact the developer.
+
+**Happy movie hunting! 🎉**
